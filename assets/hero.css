@@ -1,0 +1,329 @@
+.wph-hero {
+	position: relative;
+	isolation: isolate;
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	/* --wph-height là % chiều cao màn hình, đã trừ thanh admin của WordPress. */
+	min-height: calc((100vh - var(--wp-admin--admin-bar--height, 0px)) * var(--wph-height, 60) / 100);
+	min-height: calc((100svh - var(--wp-admin--admin-bar--height, 0px)) * var(--wph-height, 60) / 100);
+	padding: clamp(3rem, 8vw, 6rem) clamp(1.25rem, 7vw, 7rem);
+	overflow: hidden;
+	color: var(--wph-text);
+	background: linear-gradient(120deg, var(--wph-bg1), var(--wph-bg2));
+}
+
+.wph-hero *,
+.wph-hero *::before {
+	box-sizing: border-box;
+}
+
+.wph-hero .wph-hero__media {
+	position: absolute;
+	inset: 0;
+	z-index: -3;
+	width: 100%;
+	max-width: none;
+	height: 100%;
+	margin: 0;
+	object-fit: cover;
+}
+
+.wph-hero__overlay {
+	position: absolute;
+	inset: 0;
+	z-index: -2;
+	background: linear-gradient(100deg, var(--wph-bg2), var(--wph-bg1));
+	opacity: var(--wph-overlay, 0.55);
+}
+
+.wph-hero__motif {
+	position: absolute;
+	top: 50%;
+	right: clamp(-5rem, -3vw, -1rem);
+	z-index: -1;
+	width: auto;
+	height: min(115%, 36rem);
+	color: var(--wph-accent);
+	opacity: 0.26;
+	transform: translateY(-50%);
+}
+
+.wph-hero__motif--drum {
+	animation: wph-spin 180s linear infinite;
+}
+
+.wph-hero__motif--moon {
+	color: #ffedc2;
+	opacity: 0.92;
+	filter: drop-shadow(0 0 3.5rem rgb(255 215 140 / 0.65));
+}
+
+.wph-hero__container {
+	width: 100%;
+	max-width: var(--wph-container, none);
+	margin-inline: auto;
+}
+
+.wph-hero__content {
+	position: relative;
+	max-width: 44rem;
+}
+
+.wph-hero .wph-hero__eyebrow {
+	margin: 0 0 0.75rem;
+	color: var(--wph-accent);
+	font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+	font-weight: 700;
+	letter-spacing: 0.04em;
+}
+
+.wph-hero .wph-hero__title {
+	margin: 0;
+	color: inherit;
+	font-size: clamp(2.25rem, 6vw, 4.5rem);
+	font-weight: 800;
+	line-height: 1.18;
+	text-wrap: balance;
+}
+
+.wph-hero .wph-hero__text {
+	margin: 1.1rem 0 0;
+	color: inherit;
+	font-size: clamp(1.05rem, 1.9vw, 1.35rem);
+	line-height: 1.55;
+	opacity: 0.94;
+}
+
+.wph-hero .wph-hero__button {
+	display: inline-block;
+	margin-top: 1.75rem;
+	padding: 0.85em 1.75em;
+	border-radius: 999px;
+	color: var(--wph-bg2);
+	background: var(--wph-accent);
+	font-weight: 700;
+	line-height: 1.2;
+	text-decoration: none;
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.wph-hero .wph-hero__button:hover {
+	color: var(--wph-bg2);
+	box-shadow: 0 8px 24px rgb(0 0 0 / 0.3);
+	transform: translateY(-2px);
+}
+
+.wph-hero .wph-hero__button:focus-visible {
+	outline: 3px solid var(--wph-text);
+	outline-offset: 3px;
+}
+
+.wph-hero--has-scroll {
+	padding-bottom: max(5.5rem, clamp(3rem, 8vw, 6rem));
+}
+
+.wph-hero .wph-hero__scroll,
+.wph-hero .wph-hero__scroll:hover,
+.wph-hero .wph-hero__scroll:focus {
+	position: absolute;
+	right: 0;
+	bottom: clamp(0.75rem, 3vh, 1.75rem);
+	left: 0;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 3rem;
+	height: 3rem;
+	min-width: 0;
+	margin: 0 auto;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	color: var(--wph-text);
+	background: transparent;
+	box-shadow: none;
+	cursor: pointer;
+	animation: wph-nudge 1.8s ease-in-out infinite;
+}
+
+.wph-hero .wph-hero__scroll:hover {
+	background: rgb(255 255 255 / 0.16);
+}
+
+.wph-hero .wph-hero__scroll:focus-visible {
+	outline: 3px solid var(--wph-text);
+	outline-offset: 2px;
+}
+
+@keyframes wph-nudge {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(7px); }
+}
+
+/* Hiệu ứng: mỗi <i> là một cột cao bằng hero, hạt nằm ở ::before. */
+.wph-fx {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+}
+
+.wph-fx i {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: var(--x);
+	transform: translateY(var(--y));
+	animation: wph-fall var(--t) linear var(--d) infinite;
+}
+
+.wph-fx i::before {
+	content: "";
+	display: block;
+	background: var(--wph-accent);
+}
+
+.wph-fx--petals i::before {
+	width: calc(var(--s) * 15px);
+	height: calc(var(--s) * 11px);
+	border-radius: 85% 15% 85% 15%;
+	opacity: 0.9;
+	animation: wph-tumble calc(var(--t) / 2.5) ease-in-out var(--d) infinite alternate;
+}
+
+.wph-fx--snow i::before {
+	width: calc(var(--s) * 7px);
+	height: calc(var(--s) * 7px);
+	border-radius: 50%;
+	background: #fff;
+	opacity: 0.85;
+}
+
+.wph-fx--confetti i::before {
+	width: calc(var(--s) * 9px);
+	height: calc(var(--s) * 14px);
+	background: hsl(calc(var(--s) * 300deg) 95% 65%);
+	animation: wph-tumble calc(var(--t) / 3) linear var(--d) infinite;
+}
+
+.wph-fx--lanterns i {
+	animation-name: wph-rise;
+	animation-duration: calc(var(--t) * 1.8);
+}
+
+.wph-fx--lanterns i::before {
+	width: calc(var(--s) * 30px);
+	height: calc(var(--s) * 36px);
+	border-radius: 42% 42% 46% 46%;
+	background: radial-gradient(circle at 50% 55%, #fff3c4, var(--wph-accent) 45%, #e8590c);
+	box-shadow: 0 0 calc(var(--s) * 26px) var(--wph-accent);
+	opacity: 0.9;
+}
+
+.wph-fx--stars i,
+.wph-fx--fireworks i {
+	top: var(--y);
+	bottom: auto;
+	transform: none;
+	animation: none;
+}
+
+.wph-fx--stars i::before {
+	width: calc(var(--s) * 16px);
+	height: calc(var(--s) * 16px);
+	clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+	animation: wph-twinkle calc(var(--t) / 3) ease-in-out var(--d) infinite alternate;
+}
+
+.wph-fx--fireworks i::before {
+	width: calc(var(--s) * 190px);
+	height: calc(var(--s) * 190px);
+	background: repeating-conic-gradient(var(--wph-accent) 0 4deg, transparent 4deg 24deg);
+	border-radius: 50%;
+	-webkit-mask: radial-gradient(circle, transparent 30%, #000 34%, transparent 70%);
+	mask: radial-gradient(circle, transparent 30%, #000 34%, transparent 70%);
+	opacity: 0;
+	animation: wph-burst calc(var(--t) / 3) ease-out var(--d) infinite;
+}
+
+@keyframes wph-fall {
+	from { transform: translate3d(0, -8%, 0); }
+	to { transform: translate3d(5vw, 104%, 0); }
+}
+
+@keyframes wph-rise {
+	from { transform: translate3d(0, 104%, 0); }
+	to { transform: translate3d(-3vw, -14%, 0); }
+}
+
+@keyframes wph-tumble {
+	from { transform: rotate(0deg) rotateY(0deg); }
+	to { transform: rotate(320deg) rotateY(180deg); }
+}
+
+@keyframes wph-twinkle {
+	from { opacity: 0.15; transform: scale(0.7); }
+	to { opacity: 0.9; transform: scale(1); }
+}
+
+@keyframes wph-burst {
+	0% { opacity: 0; transform: scale(0.1); }
+	15% { opacity: 1; }
+	70% { opacity: 0.8; }
+	100% { opacity: 0; transform: scale(1); }
+}
+
+@keyframes wph-spin {
+	from { transform: translateY(-50%) rotate(0deg); }
+	to { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* Hạt lớn và sáng chỉ nằm ở nửa phải để không đè lên chữ. */
+@media (min-width: 641px) {
+	.wph-fx--lanterns i,
+	.wph-fx--fireworks i {
+		left: calc(52% + var(--x) * 0.44);
+	}
+}
+
+@media (max-width: 640px) {
+	.wph-fx--lanterns i::before,
+	.wph-fx--fireworks i::before {
+		opacity: 0.45;
+	}
+
+	.wph-hero__motif {
+		top: 0;
+		right: -18%;
+		height: 62%;
+		opacity: 0.2;
+		transform: none;
+	}
+
+	.wph-hero__motif--drum {
+		animation: none;
+	}
+
+	.wph-hero__motif--moon {
+		opacity: 0.5;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.wph-hero .wph-hero__scroll,
+	.wph-hero__motif,
+	.wph-fx i,
+	.wph-fx i::before {
+		animation: none !important;
+	}
+
+	.wph-fx--fireworks i::before {
+		opacity: 0.55;
+	}
+
+	.wph-fx--stars i::before {
+		opacity: 0.7;
+	}
+}
